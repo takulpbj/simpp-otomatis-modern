@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>SIMPP Otomatis - Modern</title>
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230f766e'/%3E%3Ctext x='50' y='66' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='700'%3ES%3C/text%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f0f9f8;
+      --card: #ffffffee;
+      --tx: #0b1f1d;
+      --mu: #5b7471;
+      --pr: #0f766e;
+      --ac: #f59e0b;
+      --ok: #10b981;
+      --bad: #ef4444;
+      --warn: #f59e0b;
+      --bd: #d0e5e2;
+      --r: 20px;
+      --r-sm: 12px;
+      --shadow: 0 10px 30px rgba(15, 118, 110, 0.15);
+      --shadow-lg: 0 20px 50px rgba(15, 118, 110, 0.25);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #051f22;
+        --card: #0d2d31dd;
+        --tx: #e8f5f3;
+        --mu: #8fb0ac;
+        --bd: #1a3f44;
+        --shadow: 0 10px 30px rgba(15, 118, 110, 0.25);
+        --shadow-lg: 0 20px 50px rgba(15, 118, 110, 0.4);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: linear-gradient(135deg, var(--bg) 0%, #f5fffe 50%, var(--bg) 100%));
+      color: var(--tx);
+      min-height: 100vh;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: calc(100px + env(safe-area-inset-bottom));
+      overflow-x: hidden;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: linear-gradient(135deg, #051f22 0%, #0a3538 50%, #051f22 100%);
+      }
+    }
+
+    /* Animated background blobs */
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      z-index: -1;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.3;
+      animation: float 15s ease-in-out infinite;
+    }
+
+    body::before {
+      width: 400px;
+      height: 400px;
+      background: linear-gradient(135deg, #14b8a6, #0f766e);
+      top: -150px;
+      left: -100px;
+      animation-delay: 0s;
+    }
+
+    body::after {
+      width: 350px;
+      height: 350px;
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      bottom: -150px;
+      right: -100px;
+      animation-delay: -7s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+      50% {
+        transform: translate(60px, 50px) scale(1.1);
+      }
+    }
+
+    /* Login Screen */
+    #loginScreen {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, var(--bg), #f5fffe);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #loginScreen {
+        background: linear-gradient(135deg, #051f22, #0a3538);
+      }
+    }
+
+    .login-box {
+      background: var(--card);
+      backdrop-filter: blur(20px);
+      border: 2px solid var(--bd);
+      border-radius: var(--r);
+      padding: 40px 30px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-align: center;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .login-logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--pr), #14b8a6);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 auto 20px;
+      box-shadow: 0 10px 30px rgba(15, 118, 110, 0.3);
+    }
+
+    .login-box h2 {
+      font-size: 26px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--pr), #14b8a6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .login-box p {
+      font-size: 14px;
+      color: var(--mu);
+      margin-bottom: 30px;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .login-form input {
+      padding: 13px 16px;
+      border: 2px solid var(--bd);
+      border-radius: var(--r-sm);
+      background: #fff;
+      color: var(--tx);
+      font: inherit;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .login-form input {
+        background: rgba(255, 255, 255, 0.05);
+      }
+    }
+
+    .login-form input:focus {
+      outline: none;
+      border-color: var(--pr);
+      box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .login-form button {
+      padding: 13px 16px;
+      background: linear-gradient(135deg, var(--pr), #14b8a6);
+      color: #fff;
+      border: none;
+      border-radius: var(--r-sm);
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      margin-top: 8px;
+    }
+
+    .login-form button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(15, 118, 110, 0.3);
+    }
+
+    .login-form button:active {
+      transform: scale(0.98);
+    }
+
+    .login-error {
+      padding: 12px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 2px solid var(--bad);
+      border-radius: var(--r-sm);
+      color: var(--bad);
+      font-size: 13px;
+      margin-bottom: 12px;
+      animation: shake 0.4s ease;
+      display: none;
+    }
+
+    .login-error.show {
+      display: block;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .login-loading {
+      display: none;
+      text-align: center;
+      color: var(--mu);
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--bd);
+      border-top: 4px solid var(--pr);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 12px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Main App */
+    #appScreen {
+      display: none;
+    }
+
+    header {
+      padding: 20px 20px 10px;
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 10;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--pr), #14b8a6);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 24px;
+      box-shadow: var(--shadow);
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    header h1 {
+      font-size: 22px;
+      margin: 0;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--pr), #14b8a6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    header small {
+      color: var(--mu);
+      font-size: 12px;
+    }
+
+    header .spacer {
+      flex: 1;
+    }
+
+    .user-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: rgba(15, 118, 110, 0.1);
+      border-radius: 20px;
+      font-size: 13px;
+      color: var(--pr);
+      font-weight: 600;
+    }
+
+    .user-badge::before {
+      content: "👤";
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 12px 16px;
+    }
+
+    .card {
+      background: var(--card);
+      backdrop-filter: blur(20px);
+      border: 2px solid var(--bd);
+      border-radius: var(--r);
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      animation: cardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 0.3s ease;
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card:hover {
+      border-color: var(--pr);
+      box-shadow: 0 15px 40px rgba(15, 118, 110, 0.2);
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: var(--pr);
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--mu);
+      display: block;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: var(--r-sm);
+      border: 2px solid var(--bd);
+      background: #fff;
+      color: var(--tx);
+      font: inherit;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      input,
+      select {
+        background: rgba(255, 255, 255, 0.05);
+      }
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--pr);
+      box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.15);
+      transform: translateY(-2px);
+    }
+
+    button {
+      font: inherit;
+      font-weight: 700;
+      border: 0;
+      border-radius: var(--r-sm);
+      padding: 12px 18px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    button.primary {
+      background: linear-gradient(135deg, var(--pr), #14b8a6);
+      color: #fff;
+      box-shadow: 0 5px 15px rgba(15, 118, 110, 0.2);
+    }
+
+    button.primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(15, 118, 110, 0.3);
+    }
+
+    button.primary:active {
+      transform: scale(0.98);
+    }
+
+    button.secondary {
+      background: transparent;
+      color: var(--pr);
+      border: 2px solid var(--pr);
+    }
+
+    button.secondary:hover {
+      background: rgba(15, 118, 110, 0.1);
+      transform: translateY(-2px);
+    }
+
+    button.danger {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--bad);
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+
+    button.danger:hover {
+      background: rgba(239, 68, 68, 0.2);
+    }
+
+    .row {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 120px 1fr auto;
+      margin-bottom: 10px;
+      animation: slideInLeft 0.4s ease;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .row.full {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 640px) {
+      .row,
+      .row.full {
+        grid-template-columns: 1fr 1fr;
+      }
+      .row > :nth-child(2),
+      .row.full > :nth-child(2) {
+        grid-column: 1 / 3;
+      }
+    }
+
+    /* Dashboard Ring */
+    .ring-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .ring {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 20px;
+      filter: drop-shadow(0 8px 20px rgba(15, 118, 110, 0.15));
+    }
+
+    .ring svg {
+      transform: rotate(-90deg);
+      animation: rotateRing 20s linear infinite;
+    }
+
+    @keyframes rotateRing {
+      from { transform: rotate(-90deg); }
+      to { transform: rotate(270deg); }
+    }
+
+    .ring circle {
+      fill: none;
+      stroke-width: 16;
+      stroke-linecap: round;
+    }
+
+    .ring .bg {
+      stroke: var(--bd);
+    }
+
+    .ring .fg {
+      stroke: url(#gradientPr);
+      stroke-dasharray: 502;
+      stroke-dashoffset: 502;
+      transition: stroke-dashoffset 1.5s cubic-bezier(0.34, 1.56, 0.64, 1), stroke 0.4s;
+    }
+
+    .ring-content {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-content: center;
+      text-align: center;
+    }
+
+    .ring-percent {
+      font-size: 44px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--pr), #14b8a6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .ring-month {
+      font-size: 12px;
+      color: var(--mu);
+      margin-top: 4px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .stat-card {
+      padding: 16px;
+      border-radius: var(--r-sm);
+      background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(20, 184, 166, 0.08));
+      border: 2px solid var(--bd);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--pr);
+      box-shadow: 0 8px 20px rgba(15, 118, 110, 0.15);
+    }
+
+    .stat-card small {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--mu);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .stat-card b {
+      display: block;
+      font-size: 26px;
+      color: var(--pr);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 13px;
+      transition: all 0.3s ease;
+    }
+
+    .badge.ok {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--ok);
+      border: 2px solid var(--ok);
+    }
+
+    .badge.bad {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--bad);
+      border: 2px solid var(--bad);
+    }
+
+    .badge.warn {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--warn);
+      border: 2px solid var(--warn);
+    }
+
+    /* Table */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: var(--r-sm);
+      border: 2px solid var(--bd);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--bd);
+    }
+
+    th {
+      background: linear-gradient(135deg, rgba(15, 118, 110, 0.1), rgba(20, 184, 166, 0.1));
+      color: var(--pr);
+      font-weight: 700;
+      position: sticky;
+      top: 0;
+    }
+
+    tr.header-row td {
+      font-weight: 700;
+      background: rgba(15, 118, 110, 0.08);
+      color: var(--pr);
+    }
+
+    /* Floating Action Button */
+    .fab {
+      position: fixed;
+      right: 20px;
+      bottom: calc(90px + env(safe-area-inset-bottom));
+      z-index: 50;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--pr), #14b8a6);
+      color: #fff;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(15, 118, 110, 0.3);
+      animation: slideInRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .fab:hover {
+      transform: scale(1.1) translateY(-5px);
+      box-shadow: 0 15px 40px rgba(15, 118, 110, 0.4);
+    }
+
+    .fab:active {
+      transform: scale(0.95);
+    }
+
+    /* Toast Notification */
+    #toast {
+      position: fixed;
+      left: 50%;
+      top: 20px;
+      transform: translate(-50%, -120px);
+      background: rgba(15, 25, 29, 0.95);
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: var(--r-sm);
+      z-index: 200;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-width: 90%;
+      font-weight: 600;
+      font-size: 14px;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(20, 184, 166, 0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    #toast.show {
+      transform: translate(-50%, 0);
+    }
+
+    /* Loading Overlay */
+    #loadingScreen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: grid;
+      place-items: center;
+      z-index: 150;
+      transition: opacity 0.4s, visibility 0.4s;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #loadingScreen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-container {
+      text-align: center;
+      animation: slideUp 0.6s ease;
+    }
+
+    .loader-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid var(--bd);
+      border-top: 5px solid var(--pr);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    .loader-text {
+      color: var(--mu);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    /* Tabs */
+    .tabs {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      padding-bottom: calc(12px + env(safe-area-inset-bottom));
+      background: var(--card);
+      backdrop-filter: blur(20px);
+      border-top: 2px solid var(--bd);
+      z-index: 40;
+      box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .tabs button {
+      background: transparent;
+      color: var(--mu);
+      flex: 1;
+      max-width: 160px;
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tabs button:hover {
+      background: rgba(15, 118, 110, 0.08);
+      color: var(--pr);
+    }
+
+    .tabs button.active {
+      background: linear-gradient(135deg, var(--pr), #14b8a6);
+      color: #fff;
+      box-shadow: 0 5px 15px rgba(15, 118, 110, 0.2);
+    }
+
+    section {
+      display: none;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    /* Small utilities */
+    .text-center {
+      text-align: center;
+    }
+
+    .mt-4 {
+      margin-top: 20px;
+    }
+
+    .mb-2 {
+      margin-bottom: 10px;
+    }
+
+    .gap-1 {
+      gap: 10px;
+    }
+
+    small {
+      color: var(--mu);
+      font-size: 12px;
+    }
+
+    /* Logout button in header */
+    .logout-btn {
+      padding: 6px 12px;
+      font-size: 12px;
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--bad);
+      border: 2px solid var(--bad);
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Loading Screen -->
+  <div id="loadingScreen">
+    <div class="loader-container">
+      <div class="loader-spinner"></div>
+      <div class="loader-text">Memuat aplikasi...</div>
+    </div>
+  </div>
+
+  <!-- Login Screen -->
+  <div id="loginScreen">
+    <div class="login-box">
+      <div class="login-logo">S</div>
+      <h2>SIMPP Otomatis</h2>
+      <p>Rencana Kegiatan Bulanan RSUD Dr. Soetomo</p>
+      <div class="login-error" id="loginError"></div>
+      <div class="login-loading" id="loginLoading">
+        <div class="spinner"></div>
+        <div>Memverifikasi akses...</div>
+      </div>
+      <form class="login-form" id="loginForm">
+        <input type="email" id="emailInput" placeholder="Email Anda" required>
+        <button type="submit" class="primary">🔓 Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="appScreen">
+    <header>
+      <div class="logo">S</div>
+      <div>
+        <h1>SIMPP Otomatis</h1>
+        <small>RSUD Dr. Soetomo · Rencana Kegiatan Bulanan</small>
+      </div>
+      <div class="spacer"></div>
+      <div class="user-badge" id="userBadge">Loading...</div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </header>
+
+    <main>
+      <!-- Dashboard Section -->
+      <section id="dashboardSection" class="active">
+        <div class="card">
+          <h2>📊 Dashboard Kegiatan</h2>
+          <div class="ring-container">
+            <div class="ring">
+              <svg width="200" height="200">
+                <defs>
+                  <linearGradient id="gradientPr" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#0f766e;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#14b8a6;stop-opacity:1" />
+                  </linearGradient>
+                </defs>
+                <circle class="bg" cx="100" cy="100" r="80" />
+                <circle class="fg" id="ringProgress" cx="100" cy="100" r="80" />
+              </svg>
+              <div class="ring-content">
+                <div>
+                  <div class="ring-percent" id="percentDisplay">0%</div>
+                  <div class="ring-month" id="monthDisplay">–</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div class="stat-card">
+              <small>Total Menit</small>
+              <b id="totalMinutes">0</b>
+            </div>
+            <div class="stat-card">
+              <small>Total Jam</small>
+              <b id="totalHours">0.00</b>
+            </div>
+            <div class="stat-card">
+              <small>Batas (Jam)</small>
+              <b id="limitHours">0</b>
+            </div>
+            <div class="stat-card">
+              <small>Sisa (Jam)</small>
+              <b id="remainingHours">0.00</b>
+            </div>
+          </div>
+
+          <div class="text-center mt-4">
+            <span class="badge" id="statusBadge">–</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Input Section -->
+      <section id="inputSection">
+        <div class="card">
+          <h2>✍️ Informasi Dasar</h2>
+          <div class="grid">
+            <div>
+              <label>Nama Penginput</label>
+              <input type="text" id="nameInput" placeholder="Nama Anda">
+            </div>
+            <div>
+              <label>Bulan yang dihitung (F2)</label>
+              <input type="date" id="monthInput">
+            </div>
+            <div>
+              <label>Batas maksimal jam (P4)</label>
+              <input type="number" id="limitInput" step="0.01" min="0" placeholder="0.00">
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>📅 Kegiatan Tambahan <small style="color: var(--mu);">(G & J)</small></h3>
+          <div id="eventsContainer"></div>
+          <button class="secondary" onclick="addEvent()">+ Tambah Kegiatan Tambahan</button>
+        </div>
+
+        <div class="card">
+          <h3>📋 Daftar Kegiatan & Durasi <small style="color: var(--mu);">(K, L & Jenis)</small></h3>
+          <div id="activitiesContainer"></div>
+          <button class="secondary" onclick="addActivity()">+ Tambah Kegiatan</button>
+          <p style="margin-top: 12px;"><small><strong>Jenis:</strong> Rutin = dirotasi harian · Tambahan = muncul bila ditulis di kegiatan tambahan · Bulanan = 1× di hari kerja terakhir.</small></p>
+        </div>
+      </section>
+
+      <!-- Results Section -->
+      <section id="resultsSection">
+        <div class="card" style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <div>
+            <h2 style="margin-top: 0;">📥 Export Hasil</h2>
+            <small>Unduh rencana kegiatan sebagai file Excel (.xlsx)</small>
+          </div>
+          <button class="primary" id="exportBtn" onclick="exportXlsx()">📥 Export XLSX</button>
+        </div>
+
+        <div class="card">
+          <h2>🗓 Hasil Rencana Kegiatan</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tanggal</th>
+                  <th>Kegiatan</th>
+                  <th>Vol</th>
+                  <th>Menit</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody id="resultsTable">
+                <tr>
+                  <td colspan="5" class="text-center">Belum ada hasil.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Floating Action Button -->
+    <button class="fab" id="saveBtn" onclick="saveData()">💾</button>
+
+    <!-- Bottom Navigation -->
+    <nav class="tabs">
+      <button class="active" data-section="dashboardSection">📊 Dashboard</button>
+      <button data-section="inputSection">✍️ Input</button>
+      <button data-section="resultsSection">🗓 Hasil</button>
+    </nav>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast"></div>
+
+  <script>
+    // ===== STATE MANAGEMENT =====
+    let currentUser = '';
+    let events = [];
+    let activities = [];
+
+    // ===== DOM HELPERS =====
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const toast = msg => {
+      const el = $('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 3500);
+    };
+
+    // ===== LOGIN FLOW =====
+    function showLoading() {
+      $('loadingScreen').classList.remove('hidden');
+    }
+
+    function hideLoading() {
+      $('loadingScreen').classList.add('hidden');
+    }
+
+    function showLoginScreen() {
+      $('loginScreen').style.display = 'flex';
+      $('appScreen').style.display = 'none';
+    }
+
+    function showAppScreen() {
+      $('loginScreen').style.display = 'none';
+      $('appScreen').style.display = 'block';
+      hideLoading();
+    }
+
+    $('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = $('emailInput').value.trim();
+      if (!email) return toast('⚠ Masukkan email Anda');
+
+      $('loginForm').style.display = 'none';
+      $('loginLoading').style.display = 'block';
+      $('loginError').classList.remove('show');
+
+      try {
+        await new Promise((resolve, reject) => {
+          google.script.run
+            .withSuccessHandler(data => {
+              if (data.success) {
+                currentUser = data.email;
+                localStorage.setItem('lastUser', email);
+                $('userBadge').textContent = email.split('@')[0];
+                showAppScreen();
+                loadData();
+                resolve();
+              } else {
+                reject(new Error(data.message || 'Email tidak terdaftar'));
+              }
+            })
+            .withFailureHandler(err => reject(err))
+            .verifyUserAccess(email);
+        });
+      } catch (err) {
+        $('loginForm').style.display = 'flex';
+        $('loginLoading').style.display = 'none';
+        const errorEl = $('loginError');
+        errorEl.textContent = '❌ ' + (err.message || 'Gagal verifikasi akses');
+        errorEl.classList.add('show');
+      }
+    });
+
+    function logout() {
+      if (confirm('Yakin ingin logout?')) {
+        currentUser = '';
+        localStorage.removeItem('lastUser');
+        showLoginScreen();
+        $('loginForm').style.display = 'flex';
+        $('loginLoading').style.display = 'none';
+        $('loginError').classList.remove('show');
+        $('emailInput').value = '';
+        toast('✅ Berhasil logout');
+      }
+    }
+
+    // ===== TAB NAVIGATION =====
+    document.querySelectorAll('.tabs button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+        btn.classList.add('active');
+        $(btn.dataset.section).classList.add('active');
+        $('saveBtn').style.display = btn.dataset.section === 'inputSection' ? 'flex' : 'none';
+      });
+    });
+
+    // ===== DATA MANAGEMENT =====
+    function loadData() {
+      showLoading();
+      google.script.run
+        .withSuccessHandler(render)
+        .withFailureHandler(err => {
+          hideLoading();
+          toast('❌ ' + err.message);
+        })
+        .getData();
+    }
+
+    function render(data) {
+      events = (data.events || []).map(e => ({ date: e.date, note: e.note }));
+      activities = (data.acts || []).map(a => ({ dur: a.dur, name: a.name, type: a.type }));
+
+      $('monthInput').value = data.month || '';
+      $('limitInput').value = data.limit || '';
+      $('nameInput').value = localStorage.getItem('lastName') || currentUser.split('@')[0];
+
+      drawEvents();
+      drawActivities();
+
+      // Dashboard
+      const k = data.dash || {};
+      const p = Math.min(k.persen || 0, 1);
+      $('ringProgress').style.strokeDashoffset = 502 * (1 - p);
+      $('ringProgress').style.stroke = k.persen > 1 ? '#ef4444' : p > 0.95 ? '#f59e0b' : 'url(#gradientPr)';
+
+      animateValue('percentDisplay', (k.persen || 0) * 100, v => v.toFixed(1) + '%');
+      $('totalMinutes').textContent = k.menit || '0';
+      $('totalHours').textContent = (k.jam || 0).toFixed(2);
+      $('limitHours').textContent = k.batas || '0';
+      $('remainingHours').textContent = (k.sisa || 0).toFixed(2);
+
+      const statusEl = $('statusBadge');
+      statusEl.textContent = k.status || '–';
+      statusEl.className = 'badge ' + (k.status === 'DALAM BATAS' ? 'ok' : k.status === 'MELEBIHI BATAS' ? 'bad' : 'warn');
+
+      const monthDate = new Date(data.month + 'T00:00');
+      $('monthDisplay').textContent = monthDate.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+
+      // Results
+      renderResults(data.result || []);
+
+      hideLoading();
+    }
+
+    function renderResults(results) {
+      let html = '';
+      let lastDate = '';
+      results.forEach(r => {
+        const isNewDate = r.date !== lastDate;
+        lastDate = r.date;
+        const dateStr = new Date(r.date + 'T00:00').toLocaleDateString('id-ID', { weekday: 'short', day: '2-digit', month: 'short' });
+        html += `<tr ${isNewDate ? 'class="header-row"' : ''}>
+          <td>${isNewDate ? dateStr : ''}</td>
+          <td>${esc(r.act)}</td>
+          <td>${r.vol}</td>
+          <td>${r.dur}</td>
+          <td>${r.tot}</td>
+        </tr>`;
+      });
+      $('resultsTable').innerHTML = html || '<tr><td colspan="5" class="text-center">Belum ada hasil.</td></tr>';
+    }
+
+    function drawEvents() {
+      $('eventsContainer').innerHTML = events.map((e, i) => `
+        <div class="row">
+          <input type="date" value="${e.date}" onchange="events[${i}].date = this.value" title="Tanggal">
+          <input value="${esc(e.note)}" placeholder="Apel Pagi, Rapat Koordinasi, dll" onchange="events[${i}].note = this.value" title="Keterangan">
+          <button class="danger" onclick="events.splice(${i}, 1); drawEvents();">✕</button>
+        </div>
+      `).join('');
+    }
+
+    function drawActivities() {
+      $('activitiesContainer').innerHTML = activities.map((a, i) => `
+        <div class="row full">
+          <input type="number" min="1" value="${a.dur}" placeholder="Durasi (menit)" onchange="activities[${i}].dur = this.value" title="Durasi dalam menit">
+          <input value="${esc(a.name)}" placeholder="Nama kegiatan" onchange="activities[${i}].name = this.value" title="Nama kegiatan">
+          <select onchange="activities[${i}].type = this.value" title="Jenis kegiatan">
+            ${['Rutin', 'Tambahan', 'Bulanan'].map(t => `<option ${a.type === t ? 'selected' : ''}>${t}</option>`).join('')}
+          </select>
+          <button class="danger" onclick="activities.splice(${i}, 1); drawActivities();">✕</button>
+        </div>
+      `).join('');
+    }
+
+    function addEvent() {
+      events.push({ date: '', note: '' });
+      drawEvents();
+    }
+
+    function addActivity() {
+      activities.push({ dur: '', name: '', type: 'Rutin' });
+      drawActivities();
+    }
+
+    function saveData() {
+      const name = $('nameInput').value.trim();
+      if (!name) return toast('⚠ Isi nama penginput dulu');
+      if (!$('monthInput').value) return toast('⚠ Pilih bulan');
+
+      const ev = events.filter(e => e.date || e.note);
+      if (ev.some(e => !e.date || !e.note.trim())) return toast('⚠ Lengkapi tanggal & keterangan');
+
+      const btn = $('saveBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳';
+
+      localStorage.setItem('lastName', name);
+
+      google.script.run
+        .withSuccessHandler(data => {
+          btn.disabled = false;
+          btn.textContent = '💾';
+          render(data);
+          toast('✅ Tersimpan & dihitung ulang');
+          document.querySelector('[data-section="dashboardSection"]').click();
+        })
+        .withFailureHandler(err => {
+          btn.disabled = false;
+          btn.textContent = '💾';
+          toast('❌ ' + err.message);
+        })
+        .saveData({
+          user: name,
+          month: $('monthInput').value,
+          limit: $('limitInput').value,
+          events: ev,
+          acts: activities.filter(a => a.name || a.dur)
+        });
+    }
+
+    function exportXlsx() {
+      const btn = $('exportBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Menyiapkan...';
+
+      google.script.run
+        .withSuccessHandler(result => {
+          btn.disabled = false;
+          btn.textContent = '📥 Export XLSX';
+          const bin = atob(result.b64);
+          const u8 = new Uint8Array(bin.length);
+          for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(new Blob([u8], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+          a.download = result.name;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          toast('✅ ' + result.name + ' diunduh');
+        })
+        .withFailureHandler(err => {
+          btn.disabled = false;
+          btn.textContent = '📥 Export XLSX';
+          toast('❌ ' + err.message);
+        })
+        .exportXlsx(name);
+    }
+
+    function animateValue(id, to, formatter) {
+      const el = $(id);
+      const start = performance.now();
+      const animate = (now) => {
+        const progress = Math.min((now - start) / 1200, 1);
+        const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+        el.textContent = formatter(to * easeOutCubic);
+        if (progress < 1) requestAnimationFrame(animate);
+      };
+      requestAnimationFrame(animate);
+    }
+
+    // ===== INITIALIZATION =====
+    window.addEventListener('load', () => {
+      showLoading();
+      const lastUser = localStorage.getItem('lastUser');
+      if (lastUser) {
+        $('emailInput').value = lastUser;
+      }
+      setTimeout(hideLoading, 800);
+    });
+  </script>
+</body>
+
+</html>
